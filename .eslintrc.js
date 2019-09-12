@@ -70,6 +70,7 @@ module.exports = {
 
     'no-bitwise': 0,
     'no-unused-vars': ['error', { "args": "none" }],
+    'no-plusplus': 0,
 
   },
   settings: {

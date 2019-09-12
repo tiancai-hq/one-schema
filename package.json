@@ -23,10 +23,11 @@
     "docs": "documentation readme src --section=API",
     "postdocs": "git add README.md",
     "clean": "rimraf dist",
-    "prebuild": "yarn run docs && yarn run clean",
+    "prebuild": "yarn run clean",
     "build": "babel src -d dist",
     "prerelease": "yarn run lint && yarn test && yarn run build",
     "release": "standard-version",
+    "tstit": "babel-node tet.js",
     "postpublish": "git push origin master --follow-tags"
   },
   "husky": {

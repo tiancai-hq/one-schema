@@ -1,9 +1,20 @@
 import FieldValidator from './FieldValidator';
-import validate from './validate';
+import validateMain from './validate';
+import { fvToJS, createInstanceFromFV } from './modes';
+import { registerValidator, hasValidatorId } from './validatorManager';
 
-export function ons(settings, schema) {
+function ons(settings, schema) {
   return new FieldValidator(settings, schema);
 }
-export function validateObject(inputObject, schema, options) {
-  return validate(inputObject, schema, options);
+function validate(inputObject, fieldValidator, options) {
+  return validateMain(inputObject, fieldValidator, options);
 }
+
+export {
+  fvToJS,
+  createInstanceFromFV,
+  ons,
+  validate,
+  registerValidator,
+  hasValidatorId,
+};

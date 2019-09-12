@@ -1,23 +1,11 @@
+import { hasValidatorId } from './validatorManager';
 // Define undefined to prevent unexpected behaviors
 // e.g. var undefined = 'something';
 const UNDEFINED = typeof undefined === 'undefined' ? undefined : (() => {})();
 
-function deepClone(object) {
-  return JSON.parse(JSON.stringify(object));
-}
-
 class FieldValidator {
-  constructor(settings, schema) {
-    if (typeof settings === 'object' && settings) {
-      this.settings = deepClone(settings);
-    } else {
-      this.settings = {};
-    }
-    /* if(typeof schema === 'object' && schema) {
-      this.schema = deepClone(schema);
-    }else{
-      this.schema = UNDEFINED;
-    } */
+  constructor() {
+    this.settings = {};
   }
 
   bool() {
@@ -40,9 +28,16 @@ class FieldValidator {
     return this;
   }
 
-  object() {
+  object(schema) {
     this.settings.type = 'object';
+    if (schema) {
+      this.settings.schema = schema;
+    }
     return this;
+  }
+
+  obj(schema) {
+    return this.object(schema);
   }
 
   array() {
@@ -87,43 +82,39 @@ class FieldValidator {
     return this;
   }
 
-  required(inputRequired) {
+  required(required = true) {
     if (this.settings.type === UNDEFINED) {
       throw new Error('Must set type before setting options');
     }
 
-    this.settings.required =
-      typeof inputRequired === 'boolean' ? !!inputRequired : true;
+    this.settings.required = !!required;
     return this;
   }
 
-  allowNull(inputAllowNull) {
+  allowNull(allowNull = true) {
     if (this.settings.type === UNDEFINED) {
       throw new Error('Must set type before setting options');
     }
 
-    this.settings.allowNull =
-      typeof inputAllowNull === 'boolean' ? !!inputAllowNull : true;
+    this.settings.allowNull = !!allowNull;
     return this;
   }
 
-  primaryKey(inputPrimaryKey) {
+  primaryKey(primaryKey = true) {
     if (this.settings.type === UNDEFINED) {
       throw new Error('Must set type before setting options');
     }
 
-    this.settings.primaryKey =
-      typeof inputPrimaryKey === 'boolean' ? !!inputPrimaryKey : true;
+    this.settings.primaryKey = !!primaryKey;
     return this;
   }
 
-  autoIncrement(inputAutoIncrement) {
-    if (this.settings.type === UNDEFINED) {
-      throw new Error('Must set type before setting options');
+  autoIncrement(autoIncrement = true) {
+    if (this.settings.type !== 'int32') {
+      throw new Error('Must set type int32 before setting auto increment');
     }
 
-    this.settings.autoIncrement =
-      typeof inputAutoIncrement === 'boolean' ? !!inputAutoIncrement : true;
+    this.settings.autoIncrement = !!autoIncrement;
     return this;
   }
 
@@ -146,27 +137,23 @@ class FieldValidator {
   }
 
   arrayOf(inputSchema) {
+    if (!this.settings.type) {
+      this.settings.type = 'array';
+    }
     if (this.settings.type !== 'array') {
       throw new Error("'arrayOf' option can only be used on an array type");
     }
 
-    this.settings.arrayOf =
-      typeof inputSchema === 'object' && inputSchema
-        ? new FieldValidator({
-          type: 'object',
-          schema: inputSchema,
-        })
-        : UNDEFINED;
+    this.settings.arrayOf = inputSchema;
     return this;
   }
 
-  allowNaN(allowNaN) {
+  allowNaN(allowNaN = true) {
     if (this.settings.type === UNDEFINED) {
       throw new Error('Must set type before setting options');
     }
 
-    this.settings.allowNaN =
-      typeof allowNaN === 'undefined' ? true : !!allowNaN;
+    this.settings.allowNaN = allowNaN;
     return this;
   }
 
@@ -174,18 +161,17 @@ class FieldValidator {
     if (this.settings.type === UNDEFINED) {
       throw new Error('Must set type before setting options');
     }
+    const tmpValidator = typeof validator === 'string' ? ({ id: validator }) : validator;
 
-    this.settings.validator =
-      typeof validator === 'object' ? validator : UNDEFINED;
+    if (typeof tmpValidator !== 'object' || !tmpValidator || !tmpValidator.id) {
+      throw new Error('Invalid validator!');
+    }
+    if (!hasValidatorId(tmpValidator.id)) {
+      throw new Error('Validator not registered!');
+    }
+
+    this.settings.validator = tmpValidator;
     return this;
-  }
-
-  clone() {
-    return new FieldValidator(JSON.parse(JSON.stringify(this.settings)));
-  }
-
-  getSettings() {
-    return Object.assign({}, this.settings || {});
   }
 }
 export default FieldValidator;

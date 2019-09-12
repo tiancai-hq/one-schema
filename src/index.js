@@ -1,8 +1,25 @@
-import { ons, validateObject } from './core';
-
-ons.validateObject = validateObject;
-export default ons;
-export {
-  validateObject,
+import {
+  fvToJS,
+  createInstanceFromFV,
   ons,
+  validate,
+  registerValidator,
+  hasValidatorId,
+} from './core';
+
+ons.registerValidator = registerValidator;
+ons.hasValidatorId = hasValidatorId;
+ons.fvToJS = fvToJS;
+ons.createInstanceFromFV = createInstanceFromFV;
+ons.validate = validate;
+
+export default ons;
+
+export {
+  fvToJS,
+  createInstanceFromFV,
+  ons,
+  validate,
+  registerValidator,
+  hasValidatorId,
 };
