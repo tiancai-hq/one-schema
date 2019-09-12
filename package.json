@@ -8,7 +8,7 @@
   "author": {
     "name": "Tiancai",
     "email": "hello@tiancai.pro",
-    "url": "https://github.com/tiancai-hq"
+    "url": "https://tiancai.pro"
   },
   "files": [
     "dist",
@@ -56,7 +56,7 @@
     "documentation": "11.0.1",
     "eslint": "6.0.0",
     "eslint-config-airbnb-base": "13.1.0",
-    "eslint-config-prettier": "5.0.0",
+    "eslint-config-prettier": "6.3.0",
     "eslint-plugin-flowtype": "3.10.5",
     "eslint-plugin-flowtype-errors": "4.1.0",
     "eslint-plugin-import": "2.17.3",
