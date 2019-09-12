@@ -1,4 +1,4 @@
-# ons
+# one-schema
 
 ## Install
 
