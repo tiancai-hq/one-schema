@@ -19,6 +19,7 @@
     "coverage": "npm test -- --coverage",
     "postcoverage": "open-cli coverage/lcov-report/index.html",
     "lint": "eslint .",
+    "lintfix": "eslint --fix \"src/**/*.js\"",
     "docs": "documentation readme src --section=API",
     "postdocs": "git add README.md",
     "clean": "rimraf dist",

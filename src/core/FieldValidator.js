@@ -1,6 +1,6 @@
 // Define undefined to prevent unexpected behaviors
 // e.g. var undefined = 'something';
-const UNDEFINED = typeof undefined === "undefined" ? undefined : (() => {})();
+const UNDEFINED = typeof undefined === 'undefined' ? undefined : (() => {})();
 
 function deepClone(object) {
   return JSON.parse(JSON.stringify(object));
@@ -8,52 +8,52 @@ function deepClone(object) {
 
 class FieldValidator {
   constructor(settings, schema) {
-    if(typeof settings === 'object' && settings) {
+    if (typeof settings === 'object' && settings) {
       this.settings = deepClone(settings);
-    }else{
+    } else {
       this.settings = {};
     }
-    /*if(typeof schema === 'object' && schema) {
+    /* if(typeof schema === 'object' && schema) {
       this.schema = deepClone(schema);
     }else{
       this.schema = UNDEFINED;
-    }*/
+    } */
   }
 
   bool() {
-    this.settings.type = "bool";
+    this.settings.type = 'bool';
     return this;
   }
 
   string() {
-    this.settings.type = "string";
+    this.settings.type = 'string';
     return this;
   }
 
   int32() {
-    this.settings.type = "int32";
+    this.settings.type = 'int32';
     return this;
   }
 
   float64() {
-    this.settings.type = "float64";
+    this.settings.type = 'float64';
     return this;
   }
 
   object() {
-    this.settings.type = "object";
+    this.settings.type = 'object';
     return this;
   }
 
   array() {
-    this.settings.type = "array";
+    this.settings.type = 'array';
     return this;
   }
 
   type(inputType) {
     // TODO: Add input type name check also
-    if (typeof inputType !== "string") {
-      throw new Error("Invalid type " + inputType);
+    if (typeof inputType !== 'string') {
+      throw new Error(`Invalid type ${inputType}`);
     }
 
     this.settings.type = inputType;
@@ -61,7 +61,7 @@ class FieldValidator {
   }
 
   schema(inputSchema) {
-    if (this.settings.type !== "object") {
+    if (this.settings.type !== 'object') {
       throw new Error("'schema' option can only be used on object type");
     }
 
@@ -71,7 +71,7 @@ class FieldValidator {
 
   max(inputMax) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.max = inputMax;
@@ -80,7 +80,7 @@ class FieldValidator {
 
   min(inputMin) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.min = inputMin;
@@ -89,47 +89,47 @@ class FieldValidator {
 
   required(inputRequired) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.required =
-      typeof inputRequired === "boolean" ? !!inputRequired : true;
+      typeof inputRequired === 'boolean' ? !!inputRequired : true;
     return this;
   }
 
   allowNull(inputAllowNull) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.allowNull =
-      typeof inputAllowNull === "boolean" ? !!inputAllowNull : true;
+      typeof inputAllowNull === 'boolean' ? !!inputAllowNull : true;
     return this;
   }
 
   primaryKey(inputPrimaryKey) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.primaryKey =
-      typeof inputPrimaryKey === "boolean" ? !!inputPrimaryKey : true;
+      typeof inputPrimaryKey === 'boolean' ? !!inputPrimaryKey : true;
     return this;
   }
 
   autoIncrement(inputAutoIncrement) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.autoIncrement =
-      typeof inputAutoIncrement === "boolean" ? !!inputAutoIncrement : true;
+      typeof inputAutoIncrement === 'boolean' ? !!inputAutoIncrement : true;
     return this;
   }
 
   defaultValue(inputValue) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.defaultValue = inputValue;
@@ -138,7 +138,7 @@ class FieldValidator {
 
   oneOf(inputValues) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.oneOf = Array.isArray(inputValues) ? inputValues : UNDEFINED;
@@ -146,37 +146,37 @@ class FieldValidator {
   }
 
   arrayOf(inputSchema) {
-    if (this.settings.type !== "array") {
+    if (this.settings.type !== 'array') {
       throw new Error("'arrayOf' option can only be used on an array type");
     }
 
     this.settings.arrayOf =
-      typeof inputSchema === "object" && inputSchema
+      typeof inputSchema === 'object' && inputSchema
         ? new FieldValidator({
-            type: "object",
-            schema: inputSchema
-          })
+          type: 'object',
+          schema: inputSchema,
+        })
         : UNDEFINED;
     return this;
   }
 
   allowNaN(allowNaN) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.allowNaN =
-      typeof allowNaN === "undefined" ? true : !!allowNaN;
+      typeof allowNaN === 'undefined' ? true : !!allowNaN;
     return this;
   }
 
   validator(validator) {
     if (this.settings.type === UNDEFINED) {
-      throw new Error("Must set type before setting options");
+      throw new Error('Must set type before setting options');
     }
 
     this.settings.validator =
-      typeof validator === "object" ? validator : UNDEFINED;
+      typeof validator === 'object' ? validator : UNDEFINED;
     return this;
   }
 

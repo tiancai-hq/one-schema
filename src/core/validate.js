@@ -314,8 +314,7 @@ function validate(input, schema, options) {
     typeof typeValidator !== 'function' ||
     !validateByType.hasOwnProperty(schema.settings.type)
   ) {
-    console.error('Unsupported type:', schema.settings.type);
-    return false;
+    return { validated: false, error: `Unsupported type: ${schema.settings.type}` };
   }
 
   return typeValidator(input, schema, options);
