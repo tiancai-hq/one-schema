@@ -1,3 +1,9 @@
 coverage
 dist
-node_modules
+build/
+node_modules/
+test/
+package-lock.json
+yarn.lock
+package.json
+*.md
