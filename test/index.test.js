@@ -1,4 +1,4 @@
-import {ons, validateObject } from "../src";
+import {ons} from "../src";
 
 const userSchema2 = ons().object({
   email: ons().string().validator("email"),
@@ -79,21 +79,21 @@ test("ons", () => {
   expect(JSON.stringify(userSchemaPlain)).toBe(JSON.stringify(userSchema2));
 });
 
-test("validateObject", () => {
-  expect(validateObject(VALID_USER_1, userSchema).success).toBe(true);
-  expect(validateObject(INVALID_USER_1, userSchema).success).toBe(false);
+test("ons.validate", () => {
+  expect(ons.validate(VALID_USER_1, userSchema).success).toBe(true);
+  expect(ons.validate(INVALID_USER_1, userSchema).success).toBe(false);
 
-  expect(JSON.stringify(validateObject(INVALID_USER_1, userSchema))).toBe(JSON.stringify(validateObject(INVALID_USER_1, userSchemaPlain)));
+  expect(JSON.stringify(ons.validate(INVALID_USER_1, userSchema))).toBe(JSON.stringify(ons.validate(INVALID_USER_1, userSchemaPlain)));
 });
-test("validateObject2", () => {
-  expect(validateObject(VALID_USER_1, userSchema2).success).toBe(true);
-  expect(validateObject(INVALID_USER_1, userSchema2).success).toBe(false);
+test("ons.validate2", () => {
+  expect(ons.validate(VALID_USER_1, userSchema2).success).toBe(true);
+  expect(ons.validate(INVALID_USER_1, userSchema2).success).toBe(false);
 
-  expect(JSON.stringify(validateObject(INVALID_USER_1, userSchema2))).toBe(JSON.stringify(validateObject(INVALID_USER_1, userSchema)));
+  expect(JSON.stringify(ons.validate(INVALID_USER_1, userSchema2))).toBe(JSON.stringify(ons.validate(INVALID_USER_1, userSchema)));
 });
-test("validateObjectPlain", () => {
-  expect(validateObject(VALID_USER_1, userSchemaPlain).success).toBe(true);
-  expect(validateObject(INVALID_USER_1, userSchemaPlain).success).toBe(false);
+test("ons.validatePlain", () => {
+  expect(ons.validate(VALID_USER_1, userSchemaPlain).success).toBe(true);
+  expect(ons.validate(INVALID_USER_1, userSchemaPlain).success).toBe(false);
 
-  expect(JSON.stringify(validateObject(INVALID_USER_1, userSchema2))).toBe(JSON.stringify(validateObject(INVALID_USER_1, userSchemaPlain)));
+  expect(JSON.stringify(ons.validate(INVALID_USER_1, userSchema2))).toBe(JSON.stringify(ons.validate(INVALID_USER_1, userSchemaPlain)));
 });
