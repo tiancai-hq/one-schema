@@ -18,6 +18,7 @@ const createUserSchema1 = ons().object({
   lucky_numbers: ons().arrayOf(ons().int32().required()).required(),
   age:ons().float64()
 });
+
 const createUserSchema1_RESULT = `message CreateUser {
   string full_name = 1;
   string email = 2;
