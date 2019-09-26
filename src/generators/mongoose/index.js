@@ -23,16 +23,12 @@ function arrayToMongoose(Mongoose, field) {
 function int32ToMongoose(Mongoose, field) {
   return {
     type: Mongoose.Schema.Types.Number,
-    primaryKey: !!field.settings.primaryKey,
-    autoIncrement: !!field.settings.autoIncrement,
   };
 }
 
 function stringToMongoose(Mongoose, field) {
   return {
     type: Mongoose.Schema.Types.String,
-    primaryKey: !!field.settings.primaryKey,
-    autoIncrement: !!field.settings.autoIncrement,
   };
 }
 
