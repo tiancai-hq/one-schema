@@ -1,6 +1,6 @@
 {
   "name": "one-schema",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "one-schema object validator",
   "license": "MIT",
   "repository": "tiancai-hq/one-schema",
@@ -28,7 +28,6 @@
     "prerelease": "yarn run lint && yarn test && yarn run build",
     "release": "standard-version",
     "releaseminor": "standard-version --release-as minor",
-    "tstit": "babel-node tet.js",
     "postpublish": "git push origin master --follow-tags"
   },
   "husky": {
