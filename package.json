@@ -27,6 +27,7 @@
     "build": "babel src -d dist",
     "prerelease": "yarn run lint && yarn test && yarn run build",
     "release": "standard-version",
+    "releaseminor": "standard-version --release-as minor",
     "tstit": "babel-node tet.js",
     "postpublish": "git push origin master --follow-tags"
   },
