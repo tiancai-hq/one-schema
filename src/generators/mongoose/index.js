@@ -9,11 +9,21 @@ function boolToMongoose(Mongoose, field) {
     type: Mongoose.Schema.Types.Boolean,
   };
 }
+
+/*
+  NOTE ON MIXED TYPE:
+
+  Since it is a schema-less type, you can change the value to anything else you like,
+  but Mongoose loses the ability to auto detect and save those changes.
+  To tell Mongoose that the value of a Mixed type has changed, you need to call
+  doc.markModified(path), passing the path to the Mixed type you just changed.
+*/
 function objectToMongoose(Mongoose, field) {
   return {
     type: Mongoose.Schema.Types.Mixed,
   };
 }
+
 function arrayToMongoose(Mongoose, field) {
   return {
     type: Mongoose.Schema.Types.Mixed,
