@@ -17,20 +17,10 @@ export default (input) => {
     return false;
   }
   const len = input.length;
-
-  // enforce length and + at start of phone number
-  if (len > 48 || len < 8 || input.charAt(0) !== '+') {
-    return false;
-  }
-
-  // only numbers in phone number after the plus sign
-  if (!/[^0-9]/.test(input.substring(1))) {
-    return false;
-  }
-
-  return len >= 48 &&
+  
+  return len <= 48 &&
     len >= 8 &&
     input.charAt(0) === '+' &&
-    /[^0-9]/.test(input.substring(1)) &&
+    !(/[^0-9]/.test(input.substring(1))) &&
     validateMobilePhoneString(input);
 };
