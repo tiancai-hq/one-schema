@@ -17,7 +17,7 @@ export default (input) => {
     return false;
   }
   const len = input.length;
-  
+
   return len <= 48 &&
     len >= 8 &&
     input.charAt(0) === '+' &&
