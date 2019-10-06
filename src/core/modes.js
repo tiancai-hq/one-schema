@@ -1,4 +1,5 @@
 import FieldValidator from './FieldValidator';
+import { isValidAttrName } from '../utils/validAttribute';
 
 const fvInstance = new FieldValidator();
 const emptyValArgs = {
@@ -30,18 +31,29 @@ function createInstanceFromFVMain(fieldValidator) {
 export function createInstanceFromFV(fieldValidator) {
   return createInstanceFromFVMain(JSON.parse(JSON.stringify(fieldValidator)));
 }
+function generateFVSettingsJS(settingsK, k) {
+  if (emptyValArgs[k] === settingsK) {
+    return `${k}()`;
+  } if (k === 'validator' && settingsK && typeof settingsK === 'object') {
+    if (typeof settingsK.id === 'string' && Object.keys(settingsK).length === 1) {
+      return `${k}(${JSON.stringify(settingsK.id)})`;
+    }
+  }
+
+  return `${k}(${JSON.stringify(settingsK)})`;
+}
 
 export function fvToJS(fv) {
   const parts = ['ons()'];
   if (fv.settings.arrayOf) {
-    parts.push(`arrayOf(${fv.settings.arrayOf.toJS()})`);
+    parts.push(`arrayOf(${fvToJS(createInstanceFromFV(fv.settings.arrayOf))})`);
   } else if (fv.settings.schema) {
     const { schema } = fv.settings;
     const schLines = [];
     Object.keys(schema).forEach((k) => {
       if (schema[k] && schema[k].settings) {
         schLines.push(
-          `${JSON.stringify(k)}: ${createInstanceFromFV(schema[k]).toJS()}`
+          `${isValidAttrName(k) ? k : JSON.stringify(k)}: ${fvToJS(createInstanceFromFV(schema[k]))}`
         );
       }
     });
@@ -51,7 +63,7 @@ export function fvToJS(fv) {
   }
   Object.keys(fv.settings).forEach((k) => {
     if (k !== 'type' && k !== 'schema' && k !== 'arrayOf' && typeof fv.settings[k] !== 'undefined' && typeof fvInstance[k] === 'function') {
-      const str = emptyValArgs[k] === fv.settings[k] ? (`${k}()`) : (`${k}(${JSON.stringify(fv.settings[k])})`);
+      const str = generateFVSettingsJS(fv.settings[k], k);
       if (parts.indexOf(str) === -1) {
         parts.push(str);
       }
