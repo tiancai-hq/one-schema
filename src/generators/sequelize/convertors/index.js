@@ -12,19 +12,22 @@ function objectToSequelize(Sequelize, field) {
     type: Sequelize.JSON,
   };
 }
-function arrayToSequelize(Sequelize, field) {
-  return {
-    type: Sequelize.ARRAY,
-  };
-}
-
 const SEQUELIZE_TYPE_MAP = {
   int32: int32Convert,
   string: stringConvert,
   bool: boolToSequelize,
   float64: float64Convert,
   object: objectToSequelize,
-  array: arrayToSequelize,
 };
 
+function arrayToSequelize(Sequelize, field) {
+  const element = field.settings.arrayOf;
+  const elementType = element.settings.type;
+  const convertedType = SEQUELIZE_TYPE_MAP[elementType](Sequelize, element).type;
+  return {
+    type: Sequelize.ARRAY(convertedType),
+  };
+}
+
+SEQUELIZE_TYPE_MAP.array = arrayToSequelize;
 export default SEQUELIZE_TYPE_MAP;
