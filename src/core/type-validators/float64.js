@@ -1,6 +1,6 @@
 import { vrError, vrSuccess } from '../validatorResult';
 
-export default function (x, fieldValidator) {
+export default function (x, fieldValidator, options) {
   if (typeof x !== 'number') {
     return vrError('is not type number');
   }
@@ -8,6 +8,10 @@ export default function (x, fieldValidator) {
 
   if (x === Infinity || x === -Infinity) {
     return vrError('is Infinity or -Infinity');
+  }
+
+  if (options.typeOnly) {
+    return vrSuccess();
   }
   const { min, max, allowNaN } = fieldValidator.settings;
 

@@ -1,8 +1,12 @@
 import { vrError, vrSuccess } from '../validatorResult';
 
-export default function (x, fieldValidator) {
+export default function (x, fieldValidator, options) {
   if (typeof x !== 'number' || x !== ~~x || Number.isNaN(x)) {
     return vrError('is not type number or is not a 32 bit integer');
+  }
+
+  if (options.typeOnly) {
+    return vrSuccess();
   }
   const { min, max } = fieldValidator.settings;
 

@@ -17,7 +17,7 @@ function validatePrimitive(value, fieldValidator, options) {
   if (!typeFunc) {
     return vrError(`invalid type ${fieldValidator.settings.type}`);
   }
-  const result = typeFunc(value, fieldValidator);
+  const result = typeFunc(value, fieldValidator, options);
   return result;
 }
 
