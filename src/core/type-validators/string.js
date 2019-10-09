@@ -1,6 +1,6 @@
 import { vrError, vrSuccess } from '../validatorResult';
 
-export default function (x, fieldValidator) {
+export default function (x, fieldValidator, options) {
   const { min, max, allowNull } = fieldValidator.settings;
 
   if (x === null) {
@@ -9,6 +9,10 @@ export default function (x, fieldValidator) {
 
   if (typeof x !== 'string') {
     return vrError('is not type string');
+  }
+
+  if (options.typeOnly) {
+    return vrSuccess();
   }
   const len = x.length;
 
