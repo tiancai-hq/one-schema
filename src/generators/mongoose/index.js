@@ -62,7 +62,7 @@ function convertFieldToMongoose(Mongoose, field) {
   return typeConvertor(Mongoose, field);
 }
 
-export function generateMongooseSchema(Mongoose, fieldValidator) {
+export function generateMongooseSchema(Mongoose, fieldValidator, uuid) {
   const fvSchema = fieldValidator.settings.schema;
   if (fieldValidator.settings.type !== 'object' || !fvSchema) {
     throw new Error(
@@ -79,7 +79,17 @@ export function generateMongooseSchema(Mongoose, fieldValidator) {
   const mongooseSchema = {};
 
   Object.keys(fvSchema).forEach((k) => {
-    mongooseSchema[k] = convertFieldToMongoose(Mongoose, fvSchema[k]);
+    if (k !== 'id') {
+      mongooseSchema[k] = convertFieldToMongoose(Mongoose, fvSchema[k]);
+    }
   });
+
+  mongooseSchema._id = {
+    type: Mongoose.Types.Buffer,
+    default() {
+      return Mongoose.Types.Buffer(uuid.parse(uuid.v4())).toObject(4);
+    },
+    required: true,
+  };
   return mongooseSchema;
 }
