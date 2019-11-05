@@ -70,16 +70,21 @@ function convertFieldToMongoose(Mongoose, field) {
 }
 
 export function generateMongooseSchema(Mongoose, fieldValidator) {
+  /* eslint-disable global-require */
   const crypto = require('crypto');
+  /* eslint-enable global-require */
+
   function genUUIDSequential() {
     const dateBuffer = Buffer.from((`0${Date.now().toString(16)}`).substr(-12), 'hex');
     const randBuffer = crypto.randomBytes(16);
+    /* eslint-disable prefer-destructuring */
     randBuffer[0] = dateBuffer[0];
     randBuffer[1] = dateBuffer[1];
     randBuffer[2] = dateBuffer[2];
     randBuffer[3] = dateBuffer[3];
     randBuffer[4] = dateBuffer[4];
     randBuffer[5] = dateBuffer[5];
+    /* eslint-enable prefer-destructuring */
 
 
     randBuffer[6] = (randBuffer[6] & 0x0f) | 0x40;
@@ -109,10 +114,12 @@ export function generateMongooseSchema(Mongoose, fieldValidator) {
     }
   });
 
+  /* eslint-disable no-underscore-dangle */
   mongooseSchema._id = {
     type: 'Buffer',
     default: genUUIDSequential,
     required: true,
   };
+  /* eslint-enable no-underscore-dangle */
   return mongooseSchema;
 }
