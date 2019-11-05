@@ -37,6 +37,13 @@ function int32ToMongoose(Mongoose, field) {
 }
 
 function stringToMongoose(Mongoose, field) {
+  if (field.settings.uuid) {
+    return {
+      type: 'Buffer',
+      required: true,
+    };
+  }
+
   return {
     type: Mongoose.Schema.Types.String,
   };
@@ -63,6 +70,24 @@ function convertFieldToMongoose(Mongoose, field) {
 }
 
 export function generateMongooseSchema(Mongoose, fieldValidator) {
+  const crypto = require('crypto');
+  function genUUIDSequential() {
+    const dateBuffer = Buffer.from((`0${Date.now().toString(16)}`).substr(-12), 'hex');
+    const randBuffer = crypto.randomBytes(16);
+    randBuffer[0] = dateBuffer[0];
+    randBuffer[1] = dateBuffer[1];
+    randBuffer[2] = dateBuffer[2];
+    randBuffer[3] = dateBuffer[3];
+    randBuffer[4] = dateBuffer[4];
+    randBuffer[5] = dateBuffer[5];
+
+
+    randBuffer[6] = (randBuffer[6] & 0x0f) | 0x40;
+    randBuffer[8] = (randBuffer[8] & 0x3f) | 0x80;
+
+    return Mongoose.Types.Buffer(randBuffer).toObject(4);
+  }
+
   const fvSchema = fieldValidator.settings.schema;
   if (fieldValidator.settings.type !== 'object' || !fvSchema) {
     throw new Error(
@@ -79,7 +104,15 @@ export function generateMongooseSchema(Mongoose, fieldValidator) {
   const mongooseSchema = {};
 
   Object.keys(fvSchema).forEach((k) => {
-    mongooseSchema[k] = convertFieldToMongoose(Mongoose, fvSchema[k]);
+    if (k !== 'id') {
+      mongooseSchema[k] = convertFieldToMongoose(Mongoose, fvSchema[k]);
+    }
   });
+
+  mongooseSchema._id = {
+    type: 'Buffer',
+    default: genUUIDSequential,
+    required: true,
+  };
   return mongooseSchema;
 }
