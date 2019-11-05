@@ -174,8 +174,8 @@ class FieldValidator {
     return this;
   }
 
-  uuid() {
-    this.settings.uuid = true;
+  uuid(isUuid = true) {
+    this.settings.uuid = isUuid;
     return this;
   }
 }

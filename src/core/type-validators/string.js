@@ -12,24 +12,9 @@ export default function (x, fieldValidator, options) {
   }
 
   if (uuid) {
-    const uuidParts = x.split('-');
-    if (
-      uuidParts.length !== 5 ||
-      uuidParts[0].length !== 8 ||
-      uuidParts[1].length !== 4 ||
-      uuidParts[2].length !== 4 ||
-      uuidParts[3].length !== 4 ||
-      uuidParts[4].length !== 12
-    ) {
+    const uuidExp = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    if (!uuidExp.test(x)) {
       return vrError('is not valid uuid format');
-    }
-
-    const hexExp = /^[0-9a-fA-F]+$/;
-    for (let i = 0; i < uuidParts.length; i++) {
-      const uuidPart = uuidParts[i];
-      if (!hexExp.test(uuidPart)) {
-        return vrError('is not valid uuid format');
-      }
     }
   }
 
