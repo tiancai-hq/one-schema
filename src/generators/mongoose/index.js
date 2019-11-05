@@ -71,8 +71,8 @@ function convertFieldToMongoose(Mongoose, field) {
 
 export function generateMongooseSchema(Mongoose, fieldValidator) {
   const crypto = require('crypto');
-  function genUUIDSequential(){
-    const dateBuffer = Buffer.from(("0"+Date.now().toString(16)).substr(-12), 'hex');
+  function genUUIDSequential() {
+    const dateBuffer = Buffer.from((`0${Date.now().toString(16)}`).substr(-12), 'hex');
     const randBuffer = crypto.randomBytes(16);
     randBuffer[0] = dateBuffer[0];
     randBuffer[1] = dateBuffer[1];
@@ -80,11 +80,11 @@ export function generateMongooseSchema(Mongoose, fieldValidator) {
     randBuffer[3] = dateBuffer[3];
     randBuffer[4] = dateBuffer[4];
     randBuffer[5] = dateBuffer[5];
-  
+
 
     randBuffer[6] = (randBuffer[6] & 0x0f) | 0x40;
     randBuffer[8] = (randBuffer[8] & 0x3f) | 0x80;
-  
+
     return Mongoose.Types.Buffer(randBuffer).toObject(4);
   }
 
