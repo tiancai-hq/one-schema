@@ -173,5 +173,10 @@ class FieldValidator {
     this.settings.validator = tmpValidator;
     return this;
   }
+
+  uuid() {
+    this.settings.uuid = true;
+    return this;
+  }
 }
 export default FieldValidator;
