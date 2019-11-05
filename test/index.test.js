@@ -113,7 +113,7 @@ VALID_UUIDS.forEach(s => {
 })
 INVALID_UUIDS.forEach(s => {
   test(`ons.test.uuid: ${s} is NOT a valid uuid`, () => {
-    expect(ons.validate(s, ons().string().uuid().required()).success).toBe(true)
-    expect(ons.validate({ example: s }, ons().object({ example: ons().string().uuid().required() })).success).toBe(true)
+    expect(ons.validate(s, ons().string().uuid().required()).success).toBe(false)
+    expect(ons.validate({ example: s }, ons().object({ example: ons().string().uuid().required() })).success).toBe(false)
   })
 })
