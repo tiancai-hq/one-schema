@@ -132,7 +132,27 @@ class FieldValidator {
       throw new Error('Must set type before setting options');
     }
 
-    this.settings.oneOf = Array.isArray(inputValues) ? inputValues : UNDEFINED;
+    // TODO: More rigorous check if the elements in oneOf are valid, for now use type info
+    if (Array.isArray(inputValues)) {
+      inputValues.forEach((v) => {
+        if (
+          (this.settings.type === 'string' && typeof v !== 'string' && v !== null) ||
+          (this.settings.type === 'float64' && typeof v !== 'number') ||
+          (this.settings.type === 'int32' && typeof v !== 'number' && Math.round(v) === v) ||
+          (this.settings.type === 'boolean' && typeof v !== 'boolean')
+        ) {
+          throw new Error(`Invalid oneOf value '${v}'`);
+        } else if (
+          this.settings.type === 'array' ||
+          this.settings.type === 'object'
+        ) {
+          throw new Error('Non primitive fields cannot use oneOf!');
+        }
+      });
+      this.settings.oneOf = inputValues.concat([]);
+    } else {
+      this.settings.oneOf = UNDEFINED;
+    }
     return this;
   }
 
