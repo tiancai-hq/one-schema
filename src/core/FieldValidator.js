@@ -2,6 +2,7 @@ import { hasValidatorId } from './validatorManager';
 // Define undefined to prevent unexpected behaviors
 // e.g. var undefined = 'something';
 const UNDEFINED = typeof undefined === 'undefined' ? undefined : (() => {})();
+const VALID_TYPES = ['bool', 'string', 'int32', 'float64', 'object', 'array'];
 
 class FieldValidator {
   constructor() {
@@ -46,13 +47,15 @@ class FieldValidator {
   }
 
   type(inputType) {
-    // TODO: Add input type name check also
-    if (typeof inputType !== 'string') {
+    if (
+      typeof inputType !== 'string' ||
+      VALID_TYPES.indexOf(inputType) === -1 ||
+      typeof this[inputType] !== 'function' ||
+      inputType === 'type'
+    ) {
       throw new Error(`Invalid type ${inputType}`);
     }
-
-    this.settings.type = inputType;
-    return this;
+    return this[inputType]();
   }
 
   schema(inputSchema) {
