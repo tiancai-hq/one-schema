@@ -12,7 +12,7 @@ export default function (x, fieldValidator, options) {
   }
 
   if (uuid) {
-    const uuidExp = /^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
+    const uuidExp = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     if (!uuidExp.test(x)) {
       return vrError('is not valid uuid format');
     }

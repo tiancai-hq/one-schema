@@ -1,5 +1,6 @@
 /*
-Using modified Valid URL from https://github.com/ogt/valid-url/
+Using a modified version of Valid URL from https://github.com/ogt/valid-url/
+
 Copyright (c) 2013 Odysseas Tsatalos and oDesk Corporation
 
 This software is released under the MIT license:
@@ -24,17 +25,17 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 function splitUri(uri) {
   return uri.match(
-    /(?:([^:\/?#]+):)?(?:\/\/([^\/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?/
+    /(?:([^:/?#]+):)?(?:\/\/([^/?#]*))?([^?#]*)(?:\?([^#]*))?(?:#(.*))?/
   );
 }
 
 function isUri(value) {
-  if (typeof value !== "string" || value.length === 0) {
+  if (typeof value !== 'string' || value.length === 0) {
     return false;
   }
 
   // check for illegal characters
-  if (/[^a-z0-9\:\/\?\#\[\]\@\!\$\&\'\(\)\*\+\,\;\=\.\-\_\~\%]/i.test(value)) {
+  if (/[^a-z0-9:/?#[\]@!$&'()*+,;=.\-_~%]/i.test(value)) {
     return false;
   }
 
@@ -59,21 +60,11 @@ function isUri(value) {
     if (!(path.length === 0 || /^\//.test(path))) {
       return false;
     }
-  } else {
-    // if authority is not present, the path must not start with //
-    if (/^\/\//.test(path)) {
-      return false;
-    }
   }
-
-  // scheme must begin with a letter, then consist of letters, digits, +, ., or -
-  if (!/^[a-z][a-z0-9\+\-\.]*$/.test(scheme.toLowerCase())) {
-    return false;
-  }
-  return true;
+  return !(/^\/\//.test(path) || !/^[a-z][a-z0-9+\-.]*$/.test(scheme.toLowerCase()));
 }
 
-export default value => {
+function isUrl(value) {
   if (!isUri(value)) {
     return false;
   }
@@ -82,5 +73,7 @@ export default value => {
   const splitted = splitUri(value);
   const scheme = splitted[1];
   const authority = splitted[2];
-  return authority && (scheme === "http" || scheme === "https");
-};
+  return authority && (scheme === 'http' || scheme === 'https');
+}
+
+export { isUrl };
