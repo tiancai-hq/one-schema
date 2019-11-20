@@ -5,7 +5,15 @@ const INVALID_EMAILS = Object.freeze(["@gmail.com", "test@test@gmail.com", "alon
 const VALID_MOBILE_NUMBERS = Object.freeze(["+12124441234","+12345556666","+85212345555","+8613788886666","+8613888886666","+79216456742","+34611221444"]);
 const INVALID_MOBILE_NUMBERS = Object.freeze(["+123","12124441234","112124441234","+1212444123a","+12124441234/","+1212444123","121244412349","+8521234555","+852123455555","+861378888666","+86137888866666","+7","+71234","+886123","test","+1abc123abcd","++8613888886666","+861388888666a"]);
 
-
+const VALID_URLS = Object.freeze([
+  "https://www.google.com/",
+  "https://www.amazon.com/gp/product/B07T4ZH692?pf_rd_p=2d1ab404-3b11-4c97-b3db-48081e145e35&pf_rd_r=6EXT6XH00MGJZGG09S71",
+  'http://189.123.14.13/'
+]);
+const INVALID_URLS = Object.freeze([
+  "https://example.com/foo/<script>alert(\'XSS\')</script>/",
+  "xyz://foobar.com",
+]);
 
 VALID_EMAILS.forEach(s=>{
   test(`ons.builtinValidators.email: ${s} is a valid email`, ()=>{
@@ -36,3 +44,17 @@ INVALID_MOBILE_NUMBERS.forEach(s=>{
     expect(ons.validate({example: s}, ons().object({example: ons().string().validator("mobile_number")})).success).toBe(false)
   })
 })
+
+VALID_URLS.forEach(s => {
+  test(`ons.builtinValidators.url: ${s} is a valid url`, ()=>{
+    expect(ons.validate(s, ons().string().validator("url")).success).toBe(true)
+    expect(ons.validate({example: s}, ons().object({example: ons().string().validator("url")})).success).toBe(true)
+  })
+});
+
+INVALID_URLS.forEach(s => {
+  test(`ons.builtinValidators.url: ${s} is NOT a valid url`, ()=>{
+    expect(ons.validate(s, ons().string().validator("url")).success).toBe(false)
+    expect(ons.validate({example: s}, ons().object({example: ons().string().validator("url")})).success).toBe(false)
+  })
+});
