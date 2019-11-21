@@ -10,6 +10,8 @@ import isNumericString from './numeric_string';
 
 import isUuid from './uuid';
 
+import isDatetime from './datetime';
+
 const BUILT_IN_VALIDATORS = Object.freeze({
   email: { types: ['string'], fnc: isEmail },
 
@@ -27,7 +29,7 @@ const BUILT_IN_VALIDATORS = Object.freeze({
 
   uuid: { types: ['string'], fnc: isUuid },
 
-
+  datetime: { types: ['string'], fnc: isDatetime }
 });
 
 export { BUILT_IN_VALIDATORS };

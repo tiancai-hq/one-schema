@@ -117,6 +117,9 @@ const VALID_UUID = Object.freeze(["a09f283a-f0cc-4c0d-a062-915ca131d04f", "1c667
 
 const INVALID_UUID = Object.freeze(["a09f283a-f0cc-4c0d-a062", "1c6673a0-f4b5-9c3a-615be3da6ccb", "cb6f810d-4f58-a3d9-d69479cd26e1", "-4937-4281-8448-204e56419685", "3fdf48ca-7719-4bb8-84e1-b8f21ee3b1b57", "e22c38c2------4ab9-b9e2-75607a763597", "hello", "", null, 123, "123", "df8zc4db-9198-495b-90c9-a4c3168fc456", "44dadad82dee4105a10e08c17358671c", "f54755d48cdb4eab"]);
 
+const VALID_DATETIME = Object.freeze(['2009-05-19 14:39:22-06:00', '2009-05-19', '20090519', '2010-02-18T16:23:48.5', '2010-02-18T16:23:48,444', '2009-05-19T14:39:12Z']);
+const INVALID_DATETIME = Object.freeze(['2009-05-19 14:39:22+06a00', '2007-04-05T24:50', '2009-0519', '2009-05-19 14.5.44', '2009-05-1914:39', '2009-05-19 146922.500', '2009-05-19T14:3924']);
+
 VALID_EMAILS.forEach(s=>{
   test(`ons.builtinValidators.email: ${s} is a valid email`, ()=>{
     expect(ons.validate(s, ons().string().validator("email")).success).toBe(true)
@@ -261,5 +264,19 @@ INVALID_UUID.forEach(s=>{
   test(`ons.builtinValidators.uuid: ${s} is NOT a valid uuid`, ()=>{
     expect(ons.validate(s, ons().string().validator("uuid")).success).toBe(false)
     expect(ons.validate({example: s}, ons().object({example: ons().string().validator("uuid")})).success).toBe(false)
+  })
+})
+
+VALID_DATETIME.forEach(s=>{
+  test(`ons.builtinValidators.datetime: ${s} is a valid datetime`, ()=>{
+    expect(ons.validate(s, ons().string().validator("datetime")).success).toBe(true)
+    expect(ons.validate({example: s}, ons().object({example: ons().string().validator("datetime")})).success).toBe(true)
+  })
+})
+
+INVALID_DATETIME.forEach(s=>{
+  test(`ons.builtinValidators.datetime: ${s} is NOT a valid datetime`, ()=>{
+    expect(ons.validate(s, ons().string().validator("datetime")).success).toBe(false)
+    expect(ons.validate({example: s}, ons().object({example: ons().string().validator("datetime")})).success).toBe(false)
   })
 })
