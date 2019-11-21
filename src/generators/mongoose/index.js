@@ -47,7 +47,7 @@ function stringToMongoose(Mongoose, field) {
   if (field.settings.validator && field.settings.validator.id === 'datetime') {
     return {
       type: Mongoose.Schema.Types.Date,
-    }
+    };
   }
 
   return {

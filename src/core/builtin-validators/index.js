@@ -29,7 +29,7 @@ const BUILT_IN_VALIDATORS = Object.freeze({
 
   uuid: { types: ['string'], fnc: isUuid },
 
-  datetime: { types: ['string'], fnc: isDatetime }
+  datetime: { types: ['string'], fnc: isDatetime },
 });
 
 export { BUILT_IN_VALIDATORS };
