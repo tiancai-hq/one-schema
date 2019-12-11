@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.3](https://github.com/tiancai-hq/one-schema/compare/v0.4.2...v0.4.3) (2019-12-11)
+
+
+
 ### [0.4.2](https://github.com/tiancai-hq/one-schema/compare/v0.4.1...v0.4.2) (2019-11-21)
 
 
