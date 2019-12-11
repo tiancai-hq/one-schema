@@ -8,6 +8,7 @@ const emptyValArgs = {
   allowNull: new FieldValidator().string().allowNull().settings.allowNull,
   primaryKey: new FieldValidator().int32().primaryKey().settings.primaryKey,
   autoIncrement: new FieldValidator().int32().autoIncrement().settings.autoIncrement,
+  uuid: new FieldValidator().string().uuid().settings.uuid,
 };
 
 function createInstanceFromFVMain(fieldValidator) {

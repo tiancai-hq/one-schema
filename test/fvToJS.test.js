@@ -36,6 +36,7 @@ const USER_2_JS_STR = `ons().object({
 })`;
 
 const USER_3_JS_STR = `ons().object({
+  id: ons().string().required().uuid(),
   email: ons().string().validator("email"),
   phone_number: ons().string().required().validator({"id": "mobile_number", "hello": "world"}),
   name: ons().string().min(1).required(),

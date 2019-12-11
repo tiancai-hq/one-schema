@@ -1,1 +1,1 @@
-export const ONS_SCHEMA_VERSION = '0.3.0';
+export const ONS_SCHEMA_VERSION = '0.4.3';
