@@ -142,7 +142,7 @@ class FieldValidator {
           (this.settings.type === 'string' && typeof v !== 'string' && v !== null) ||
           (this.settings.type === 'float64' && typeof v !== 'number') ||
           (this.settings.type === 'int32' && typeof v !== 'number' && Math.round(v) === v) ||
-          (this.settings.type === 'boolean' && typeof v !== 'boolean')
+          (this.settings.type === 'bool' && typeof v !== 'boolean')
         ) {
           throw new Error(`Invalid oneOf value '${v}'`);
         } else if (

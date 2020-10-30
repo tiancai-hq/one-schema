@@ -13,6 +13,7 @@ const userSchema2 = ons().object({
     schoolName: ons().string(),
     year: ons().int32()
   })).required(),
+  onlyAllowFalse: ons().bool().oneOf([false])
 })
 
 const userSchema = ons()
@@ -43,9 +44,11 @@ const userSchema = ons()
         schoolName: ons().string(),
         year: ons().int32()
       }))
-      .required()
+      .required(),
+    onlyAllowFalse: ons().bool().oneOf([false])
   });
-const userSchemaPlain = { "settings": { "type": "object", "schema": { "email": { "settings": { "type": "string", "validator": { "id": "email" } } }, "name": { "settings": { "type": "string", "min": 1, "required": true } }, "age": { "settings": { "type": "int32", "min": 0, "required": true } }, "height": { "settings": { "type": "float64", "max": 300 } }, "gender": { "settings": { "type": "bool" } }, "location": { "settings": { "type": "object", "schema": { "city": { "settings": { "type": "string", "required": true } } } } }, "schools": { "settings": { "type": "array", "arrayOf": { "settings": { "type": "object", "schema": { "schoolName": { "settings": { "type": "string" } }, "year": { "settings": { "type": "int32" } } } } }, "required": true } } } } }
+const userSchemaPlain = { "settings": { "type": "object", "schema": { "email": { "settings": { "type": "string", "validator": { "id": "email" } } }, "name": { "settings": { "type": "string", "min": 1, "required": true } }, "age": { "settings": { "type": "int32", "min": 0, "required": true } }, "height": { "settings": { "type": "float64", "max": 300 } }, "gender": { "settings": { "type": "bool" } }, "location": { "settings": { "type": "object", "schema": { "city": { "settings": { "type": "string", "required": true } } } } }, "schools": { "settings": { "type": "array", "arrayOf": { "settings": { "type": "object", "schema": { "schoolName": { "settings": { "type": "string" } }, "year": { "settings": { "type": "int32" } } } } }, "required": true } }, "onlyAllowFalse": { "settings": { "type": "bool", "oneOf": [false] } } } } };
+
 
 
 const VALID_USER_1 = {
@@ -58,7 +61,8 @@ const VALID_USER_1 = {
   schools: [
     { schoolName: "hi", year: 2001 },
     { schoolName: "yoho", year: 1993 }
-  ]
+  ],
+  onlyAllowFalse: false
 };
 const INVALID_USER_1 = {
   email: "hello@hello.com",
@@ -70,7 +74,8 @@ const INVALID_USER_1 = {
   schools: [
     { schoolName: 1337, year: 2001 },
     { schoolName: "yoho", year: 1993 }
-  ]
+  ],
+  onlyAllowFalse: false
 };
 
 const VALID_UUIDS = ["a09f283a-f0cc-4c0d-a062-915ca131d04f", "1c6673a0-f4b5-4d56-9c3a-615be3da6ccb", "cb6f810d-2dcb-4f58-a3d9-d69479cd26e1", "429c6647-4937-4281-8448-204e56419685", "3fdf48ca-7719-4bb8-84e1-b8f21ee3b1b5", "e22c38c2-870c-4ab9-b9e2-75607a763597", "aa96b813-68fe-4444-aa53-aa9537fef40a", "df8dc4db-9198-495b-90c9-a4c3168fc456", "44dadad8-2dee-4105-a10e-08c17358671c", "f54755d4-8cdb-4eab-b884-0584e4f8bd61"];
