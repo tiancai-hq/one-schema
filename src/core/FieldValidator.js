@@ -180,6 +180,14 @@ class FieldValidator {
     return this;
   }
 
+  tags(tags) {
+    if (!Array.isArray(tags) || !tags.length || tags.filter((t) => (typeof t !== 'string' || !t.length)).length) {
+      throw new Error('Field Validator tags must be an array of non-empty strings!');
+    }
+    this.settings.tags = tags;
+    return this;
+  }
+
   validator(validator) {
     if (this.settings.type === UNDEFINED) {
       throw new Error('Must set type before setting options');

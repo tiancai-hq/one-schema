@@ -2,7 +2,7 @@ const {ons, fvToJS} = require('../src');
 
 
 const USER_1_JS_STR = `ons().object({
-  full_name: ons().string().min(1).max(64).required(),
+  full_name: ons().string().min(1).max(64).required().tags(["test"]),
   email: ons().string().min(1).max(64).validator("email").required(),
   bio: ons().string().min(0).max(512),
   location: ons().object({
