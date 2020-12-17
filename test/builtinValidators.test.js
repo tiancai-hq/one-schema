@@ -120,6 +120,60 @@ const INVALID_UUID = Object.freeze(["a09f283a-f0cc-4c0d-a062", "1c6673a0-f4b5-9c
 const VALID_DATETIME = Object.freeze(['2009-05-19 14:39:22-06:00', '2009-05-19', '20090519', '2010-02-18T16:23:48.5', '2010-02-18T16:23:48,444', '2009-05-19T14:39:12Z']);
 const INVALID_DATETIME = Object.freeze(['100000','abcd', '', '2009-05-19 14:39:22+06a00', '2007-04-05T24:50', '2009-0519', '2009-05-19 14.5.44', '2009-05-1914:39', '2009-05-19 146922.500', '2009-05-19T14:3924']);
 
+const VALID_INT64_STRING = Object.freeze([
+  "-3642342507247777985",
+  "-2975742547068585235",
+  "7254850939994515736",
+  "-8556304026405624745",
+  "-3772001869061542546",
+  "7366722871941940226",
+  "1900890322139207405",
+  "-5893478629215126568",
+  "-2473581714055560321",
+  "5626934689865447990",
+  "0",
+  "1000",
+  "-1337",
+  "9223372036854775807",
+  "-9223372036854775808",
+  "124124124124124124",
+  "1000010000010009",
+  "8223372036854775809",
+  "-7223372036854775899",
+  "1000001000",
+  "1000000000000",
+  "99999999999999"
+]);
+const INVALID_INT64_STRING = Object.freeze([
+  "10.5",
+  "10.0",
+  "0.0",
+  "-",
+  "--1",
+  "--",
+  "-.05",
+  "-0.1",
+  "9223372036854775808",
+  "-9223372036854775809",
+  "124124a0",
+  "123 123",
+  "123,123",
+  "123Z",
+  "1-",
+  "+1",
+  "a1",
+  "-a1",
+  "92233720368547758089",
+  "9223372036854775808999",
+  "0x123",
+  "0xabc",
+  "abc",
+  ",",
+  "-1a1",
+  "-0x123"
+])
+
+
 VALID_EMAILS.forEach(s=>{
   test(`ons.builtinValidators.email: ${s} is a valid email`, ()=>{
     expect(ons.validate(s, ons().string().validator("email")).success).toBe(true)
@@ -278,5 +332,20 @@ INVALID_DATETIME.forEach(s=>{
   test(`ons.builtinValidators.datetime: ${s} is NOT a valid datetime`, ()=>{
     expect(ons.validate(s, ons().string().validator("datetime")).success).toBe(false)
     expect(ons.validate({example: s}, ons().object({example: ons().string().validator("datetime")})).success).toBe(false)
+  })
+})
+
+
+VALID_INT64_STRING.forEach(s=>{
+  test(`ons.builtinValidators.int64_string: ${s} is a valid int64 string`, ()=>{
+    expect(ons.validate(s, ons().string().validator("int64_string")).success).toBe(true)
+    expect(ons.validate({example: s}, ons().object({example: ons().string().validator("int64_string")})).success).toBe(true)
+  })
+})
+
+INVALID_INT64_STRING.forEach(s=>{
+  test(`ons.builtinValidators.int64_string: ${s} is NOT a valid int64 string`, ()=>{
+    expect(ons.validate(s, ons().string().validator("int64_string")).success).toBe(false)
+    expect(ons.validate({example: s}, ons().object({example: ons().string().validator("int64_string")})).success).toBe(false)
   })
 })

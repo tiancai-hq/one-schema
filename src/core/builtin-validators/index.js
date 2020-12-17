@@ -7,6 +7,8 @@ import { isIpAddress, isIpV4Address, isIpV6Address } from './ip_address';
 import isAlphanumeric from './alphanumeric';
 import isHexString from './hex_string';
 import isNumericString from './numeric_string';
+import isInt64String from './int64_string';
+
 
 import isUuid from './uuid';
 
@@ -26,6 +28,7 @@ const BUILT_IN_VALIDATORS = Object.freeze({
   alphanumeric: { types: ['string'], fnc: isAlphanumeric },
   hex_string: { types: ['string'], fnc: isHexString },
   numeric_string: { types: ['string'], fnc: isNumericString },
+  int64_string: { types: ['string'], fnc: isInt64String },
 
   uuid: { types: ['string'], fnc: isUuid },
 
