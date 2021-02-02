@@ -82,6 +82,45 @@ const VALID_UUIDS = ["a09f283a-f0cc-4c0d-a062-915ca131d04f", "1c6673a0-f4b5-4d56
 const INVALID_UUIDS = ["a09f283a-f0cc-4c0d-a062", "1c6673a0-f4b5-9c3a-615be3da6ccb", "cb6f810d-4f58-a3d9-d69479cd26e1", "-4937-4281-8448-204e56419685", "3fdf48ca-7719-4bb8-84e1-b8f21ee3b1b57", "e22c38c2------4ab9-b9e2-75607a763597", "hello", "", null, 123, "123", "df8zc4db-9198-495b-90c9-a4c3168fc456", "44dadad82dee4105a10e08c17358671c", "f54755d48cdb4eab"];
 
 
+const companySchema = ons().object({
+  name: ons().string().min(1).max(64),
+  employees: ons().arrayOf(ons().object({
+    name: ons().string().required(),
+    age: ons().int32().required(),
+    hairColor: ons().string(),
+  }).required()).required().min(1).max(4)
+});
+
+const VALID_COMPANY_1 = {
+  name: "Acme LLC",
+  employees: [
+    {name: "Ted Smith", age: 28, hairColor: "black"},
+    {name: "Sandra Wang", age: 26, hairColor: "black"},
+    {name: "Johnny Cash", age: 30, hairColor: "brown"}
+  ]
+};
+
+const INVALID_COMPANY_1 = {
+  name: "Acme LLC",
+  employees: [
+    {name: "Ted Smith", age: 28, hairColor: "black"},
+    {name: "Sandra Wang", age: 26, hairColor: "black"},
+    {name: "Johnny Cash", age: 30, hairColor: "brown"},
+    {name: "Blake Goldman", age: 32, hairColor: "brown"},
+    {name: "Kyle Jones", age: 30, hairColor: "red"}
+  ]
+};
+
+const INVALID_COMPANY_2 = {
+  name: "Acme LLC",
+  employees: [
+  ],
+};
+const INVALID_COMPANY_3 = {
+  name: "Acme LLC",
+};
+
+
 test("ons", () => {
   expect(JSON.stringify(ons())).toBe(JSON.stringify({ settings: {} }));
   expect(JSON.stringify(userSchema)).toBe(JSON.stringify(userSchemaPlain));
@@ -108,6 +147,16 @@ test("ons.validatePlain", () => {
   expect(JSON.stringify(ons.validate(INVALID_USER_1, userSchema2))).toBe(JSON.stringify(ons.validate(INVALID_USER_1, userSchemaPlain)));
 });
 
+test("ons.validate_company_1", () => {
+  expect(ons.validate(VALID_COMPANY_1, companySchema).success).toBe(true);
+  expect(ons.validate(INVALID_COMPANY_1, companySchema).success).toBe(false);
+});
+test("ons.validate_company_2", () => {
+  expect(ons.validate(INVALID_COMPANY_2, companySchema).success).toBe(false);
+});
+test("ons.validate_company_3", () => {
+  expect(ons.validate(INVALID_COMPANY_3, companySchema).success).toBe(false);
+});
 
 
 VALID_UUIDS.forEach(s => {

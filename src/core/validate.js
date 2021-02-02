@@ -30,7 +30,7 @@ function validateArrayField(value, fieldValidator, options) {
   if (typeof min === 'number' && valLength < min) {
     return vrError(`is less than minimum length ${min}`);
   }
-  if (typeof max === 'number' && valLength < max) {
+  if (typeof max === 'number' && valLength > max) {
     return vrError(`is larger than maximum length ${max}`);
   }
   for (let i = 0; i < valLength; i++) {
