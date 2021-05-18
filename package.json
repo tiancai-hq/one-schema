@@ -1,6 +1,6 @@
 {
   "name": "one-schema",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "one-schema object validator",
   "license": "MIT",
   "repository": "tiancai-hq/one-schema",
