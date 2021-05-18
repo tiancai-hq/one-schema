@@ -4,6 +4,20 @@ import { hasValidatorId } from './validatorManager';
 const UNDEFINED = typeof undefined === 'undefined' ? undefined : (() => {})();
 const VALID_TYPES = ['bool', 'string', 'int32', 'float64', 'object', 'array'];
 
+const BASIC_TYPE_CHECKS = {
+  bool: (x) => typeof x === 'boolean',
+  string: (x) => (typeof x === 'string' || x === null),
+  int32: (x) => typeof x === 'number' && !Number.isNaN(x) && Number.isFinite(x) && Math.round(x) === x,
+  float64: (x) => typeof x === 'number',
+  object: (x) => typeof x === 'object',
+  array: (x) => Array.isArray(x),
+};
+function basicCheckType(type, v) {
+  if (BASIC_TYPE_CHECKS.hasOwnProperty(type) && typeof BASIC_TYPE_CHECKS[type] === 'function') {
+    return BASIC_TYPE_CHECKS[type](v);
+  }
+  return false;
+}
 class FieldValidator {
   constructor() {
     this.settings = {};
@@ -139,17 +153,12 @@ class FieldValidator {
     if (Array.isArray(inputValues)) {
       inputValues.forEach((v) => {
         if (
-          (this.settings.type === 'string' && typeof v !== 'string' && v !== null) ||
-          (this.settings.type === 'float64' && typeof v !== 'number') ||
-          (this.settings.type === 'int32' && typeof v !== 'number' && Math.round(v) === v) ||
-          (this.settings.type === 'bool' && typeof v !== 'boolean')
-        ) {
-          throw new Error(`Invalid oneOf value '${v}'`);
-        } else if (
           this.settings.type === 'array' ||
           this.settings.type === 'object'
         ) {
           throw new Error('Non primitive fields cannot use oneOf!');
+        } else if (!basicCheckType(this.settings.type, v)) {
+          throw new Error(`Invalid oneOf value '${v}'`);
         }
       });
       this.settings.oneOf = inputValues.concat([]);
@@ -185,6 +194,25 @@ class FieldValidator {
       throw new Error('Field Validator tags must be an array of non-empty strings!');
     }
     this.settings.tags = tags;
+    return this;
+  }
+
+  description(description) {
+    if (typeof description !== 'string') {
+      throw new Error("'description' must be a string!");
+    }
+    this.settings.description = description;
+    return this;
+  }
+
+  example(example) {
+    if (this.settings.type === UNDEFINED) {
+      throw new Error('Must set type before setting the example');
+    }
+    if (!basicCheckType(this.settings.type, example)) {
+      throw new Error('Invalid example value');
+    }
+    this.settings.example = example;
     return this;
   }
 

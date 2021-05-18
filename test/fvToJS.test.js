@@ -6,14 +6,14 @@ const USER_1_JS_STR = `ons().object({
   email: ons().string().min(1).max(64).validator("email").required(),
   bio: ons().string().min(0).max(512),
   location: ons().object({
-    city: ons().string(),
+    city: ons().string().example("Shanghai"),
     state: ons().string(),
-    country: ons().string().min(2).max(2),
+    country: ons().string().min(2).max(2).example("CN"),
   }),
   phone_number: ons().string().min(1).max(64).validator("mobile_number"),
   family_members: ons().arrayOf(ons().object({
     full_name: ons().string().required(),
-    age: ons().float64().required()
+    age: ons().float64().required().description("A user's age in years"),
   })).required(),
   lucky_numbers: ons().arrayOf(ons().int32().required()).required(),
   age:ons().float64()
@@ -22,9 +22,9 @@ const USER_1_JS_STR = `ons().object({
 const USER_2_JS_STR = `ons().object({
   email: ons().string().validator("email"),
   phone_number: ons().string().required().validator("mobile_number"),
-  name: ons().string().min(1).required(),
+  name: ons().string().min(1).required().description("A user's full name").example("Todd Smith"),
   age: ons().int32().min(0).required(),
-  height: ons().float64().max(300),
+  height: ons().float64().max(300).description("A user's height in cm"),
   gender: ons().bool(),
   location: ons().object({
     city: ons().string().required(),
