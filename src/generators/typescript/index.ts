@@ -18,7 +18,6 @@ function primitiveSchemaFieldToType(fv: IFieldValidatorSerializedReal): string {
   return `${FV_TYPE_TO_TS_TYPE[fv.settings.type]}`;
 }
 function getTypeForField(fv: IFieldValidatorSerializedReal, keyName: string, interfaceName: string, interfaceArray: string[], subNameGenerator: TSubNameGenerator): string {
-  const fType = fv.settings.type;
   if (fv.settings.type === 'object') {
     const internalType = subNameGenerator(interfaceName, 'sub', keyName);
     generateTypescriptInterfaceFull(fv, internalType, interfaceArray, subNameGenerator);

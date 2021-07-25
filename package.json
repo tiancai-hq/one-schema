@@ -19,7 +19,7 @@
     "coverage": "yarn test -- --coverage",
     "postcoverage": "open-cli coverage/lcov-report/index.html",
     "lint": "eslint .",
-    "lintfix": "eslint --fix \"src/**/*.js\"",
+    "lintfix": "eslint --fix \"src/**/*.ts\"",
     "docs": "documentation readme src --section=API",
     "postdocs": "git add README.md",
     "clean": "rimraf dist",

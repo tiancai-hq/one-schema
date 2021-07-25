@@ -1,4 +1,4 @@
-import { IFieldValidatorSerialized, IFieldValidatorSettingsObject } from "../../types/core";
+import { IFieldValidatorSerialized } from "../../types/core";
 
 const PRIMITIVE_TYPE_MAP_REQUIRED: {[key: string]: string} = {
   string: 'string',
@@ -41,7 +41,6 @@ function fvObjectToProtobuf(fieldValidator: IFieldValidatorSerialized, objectTyp
   if (fieldValidator.settings.type !== 'object') {
     throw new Error('Must be object to be schema!');
   }
-  const settings = fieldValidator.settings;
   const { schema } = fieldValidator.settings;
   if(!schema){
     throw new Error("Object field validator must have a schema to convert it to a protobuf!");

@@ -2,14 +2,14 @@ import int32Convert from './int32';
 import stringConvert from './string';
 import float64Convert from './float64';
 import { ISequelizeFieldDef, TSequelizeLibrary } from '../types';
-import { IFieldValidatorSerialized, IFieldValidatorSerializedArray } from '../../../types/core';
+import { IFieldValidatorSerialized } from '../../../types/core';
 
-function boolToSequelize(Sequelize: TSequelizeLibrary, field: IFieldValidatorSerialized): ISequelizeFieldDef {
+function boolToSequelize(Sequelize: TSequelizeLibrary, _field: IFieldValidatorSerialized): ISequelizeFieldDef {
   return {
     type: Sequelize.BOOLEAN,
   };
 }
-function objectToSequelize(Sequelize: TSequelizeLibrary, field: IFieldValidatorSerialized): ISequelizeFieldDef {
+function objectToSequelize(Sequelize: TSequelizeLibrary, _field: IFieldValidatorSerialized): ISequelizeFieldDef {
   return {
     type: Sequelize.JSON,
   };

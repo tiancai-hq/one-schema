@@ -341,14 +341,14 @@ class FieldValidatorObject extends FieldValidatorBase implements IFieldValidator
     this.settings = base as IFieldValidatorSettingsObject;
   }
 
-  defaultValue(inputValue: object) {
+  defaultValue(inputValue: Record<string, unknown>) {
     if (!basicCheckType(this.settings.type, inputValue)) {
       throw new Error('Invalid defaultValue value');
     }
     this.settings.defaultValue = inputValue;
     return this;
   }
-  example(example: object) {
+  example(example: Record<string, unknown>) {
     if (!basicCheckType(this.settings.type, example)) {
       throw new Error('Invalid example value');
     }

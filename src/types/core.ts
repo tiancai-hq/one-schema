@@ -94,8 +94,8 @@ interface IFieldValidatorSettingsFloat64 extends IFieldValidatorSettingsBase {
 }
 interface IFieldValidatorSettingsObject extends IFieldValidatorSettingsBase {
   type: 'object';
-  defaultValue?: object;
-  example?: object;
+  defaultValue?: Record<string, unknown>;
+  example?: Record<string, unknown>;
 
   schema?: IFieldValidatorSchema;
 }

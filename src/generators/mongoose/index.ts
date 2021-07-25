@@ -2,13 +2,13 @@ import { IFieldValidatorSerialized } from "../../types/core";
 type TMongooseLibrary = any;
 
 
-function float64ToMongoose(Mongoose: any, field: IFieldValidatorSerialized) {
+function float64ToMongoose(Mongoose: any, _field: IFieldValidatorSerialized) {
   return {
     type: Mongoose.Schema.Types.Number,
   };
 }
 
-function boolToMongoose(Mongoose: TMongooseLibrary, field: IFieldValidatorSerialized) {
+function boolToMongoose(Mongoose: TMongooseLibrary, _field: IFieldValidatorSerialized) {
   return {
     type: Mongoose.Schema.Types.Boolean,
   };
@@ -22,19 +22,19 @@ function boolToMongoose(Mongoose: TMongooseLibrary, field: IFieldValidatorSerial
   To tell Mongoose that the value of a Mixed type has changed, you need to call
   doc.markModified(path), passing the path to the Mixed type you just changed.
 */
-function objectToMongoose(Mongoose: TMongooseLibrary, field: IFieldValidatorSerialized) {
+function objectToMongoose(Mongoose: TMongooseLibrary, _field: IFieldValidatorSerialized) {
   return {
     type: Mongoose.Schema.Types.Mixed,
   };
 }
 
-function arrayToMongoose(Mongoose: TMongooseLibrary, field: IFieldValidatorSerialized) {
+function arrayToMongoose(Mongoose: TMongooseLibrary, _field: IFieldValidatorSerialized) {
   return {
     type: Mongoose.Schema.Types.Mixed,
   };
 }
 
-function int32ToMongoose(Mongoose: TMongooseLibrary, field: IFieldValidatorSerialized) {
+function int32ToMongoose(Mongoose: TMongooseLibrary, _field: IFieldValidatorSerialized) {
   return {
     type: Mongoose.Schema.Types.Number,
   };
@@ -84,8 +84,10 @@ function convertFieldToMongoose(Mongoose: TMongooseLibrary, field: IFieldValidat
 
 export function generateMongooseSchema(Mongoose: TMongooseLibrary, fieldValidator: IFieldValidatorSerialized) {
   /* eslint-disable global-require */
+  /* eslint-disable @typescript-eslint/no-var-requires */
   const crypto = require('crypto');
   /* eslint-enable global-require */
+  /* eslint-enable @typescript-eslint/no-var-requires */
 
   function genUUIDSequential() {
     const dateBuffer = Buffer.from((`0${Date.now().toString(16)}`).substr(-12), 'hex');
