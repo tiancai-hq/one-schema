@@ -1,7 +1,10 @@
-const fs = require('fs');
-const path = require('path');
 
-
+module.exports = {
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: ['plugin:@typescript-eslint/recommended'], // this is optional 
+}
+/*
 module.exports = {
   parser: 'babel-eslint',
   extends: ['airbnb-base'],
@@ -76,3 +79,4 @@ module.exports = {
   settings: {
   },
 };
+*/
